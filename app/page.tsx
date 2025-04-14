@@ -1,10 +1,10 @@
 // app/page.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 
-// Define the movie object interface
+// Define the movie object structure
 interface Movie {
   id: string;
   title: string;
@@ -19,74 +19,57 @@ interface Movie {
 const mockMovies: Movie[] = [
   {
     id: "1",
-    title: "The Shawshank Redemption",
-    rating: 9.3,
+    title: "Plan 9 from Outer Space",
+    rating: 2.5,
     upvotes: 150,
-    downvotes: 5,
-    thumbnail: "https://via.placeholder.com/300x200",
-    comments: ["Great movie!", "A classic."],
+    downvotes: 500,
+    thumbnail: "/placeholder-thumbnail.png",
+    comments: ["So bad it's good!", "Ed Wood's masterpiece... of cringe."],
   },
   {
     id: "2",
-    title: "The Godfather",
-    rating: 9.2,
-    upvotes: 140,
-    downvotes: 10,
-    thumbnail: "https://via.placeholder.com/300x200",
-    comments: ["A masterpiece.", "Best movie ever."],
+    title: "Troll 2",
+    rating: 3.0,
+    upvotes: 200,
+    downvotes: 600,
+    thumbnail: "/placeholder-thumbnail.png",
+    comments: ["Oh my gooood!", "They're eating them! And then they're going to eat me!"]
   },
   {
     id: "3",
-    title: "The Dark Knight",
-    rating: 9.0,
-    upvotes: 130,
-    downvotes: 15,
-    thumbnail: "https://via.placeholder.com/300x200",
-    comments: ["A superhero classic.", "Heath Ledger was amazing."],
+    title: "The Room",
+    rating: 4.0,
+    upvotes: 300,
+    downvotes: 400,
+    thumbnail: "/placeholder-thumbnail.png",
+    comments: ["You're tearing me apart, Lisa!", "I did not hit her, it's not true! It's bullshit! I did not hit her! I did not!"]
   },
   {
     id: "4",
-    title: "Pulp Fiction",
-    rating: 8.9,
-    upvotes: 120,
-    downvotes: 20,
-    thumbnail: "https://via.placeholder.com/300x200",
-    comments: ["So original!", "Love the dialogue."],
+    title: "Manos: The Hands of Fate",
+    rating: 1.5,
+    upvotes: 50,
+    downvotes: 700,
+    thumbnail: "/placeholder-thumbnail.png",
+    comments: ["This is... something.", "The master approves... of cringe."],
   },
   {
     id: "5",
-    title: "Schindler's List",
-    rating: 8.9,
-    upvotes: 110,
-    downvotes: 25,
-    thumbnail: "https://via.placeholder.com/300x200",
-    comments: ["Very powerful.", "A must-see."],
-  },
-  {
-    id: "6",
-    title: "12 Angry Men",
-    rating: 8.9,
+    title: "Birdemic: Shock and Terror",
+    rating: 2.0,
     upvotes: 100,
-    downvotes: 30,
-    thumbnail: "https://via.placeholder.com/300x200",
-    comments: ["Incredible acting.", "A courtroom drama for the ages."],
+    downvotes: 650,
+    thumbnail: "/placeholder-thumbnail.png",
+    comments: ["Wire hangers!", "The birds... they're everywhere!"]
   },
 ];
 
-const MovieListing: React.FC<{ movie: Movie }> = ({ movie }) => {
-  return (
-    <div className="border rounded-lg p-4 shadow-sm">
-      <img src={movie.thumbnail} alt={movie.title} className="mb-2 rounded" />
-      <h3 className="text-xl font-bold">{movie.title}</h3>
-      <p>Rating: {movie.rating}/10</p>
-      <p>Upvotes: {movie.upvotes}</p>
-      <p>Downvotes: {movie.downvotes}</p>
-      <p>Comments: {movie.comments.length}</p>
-    </div>
-  );
-};
+// Placeholder component for MovieListing (replace with actual component later)
+const MovieListing = ({ movie }: { movie: Movie }) => (
+  <div className="border rounded-lg p-4">{movie.title}</div>
+);
 
-export default function Home() {
+const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState<Movie[]>(mockMovies);
 
@@ -97,34 +80,29 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 py-6">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold text-center mb-8">Movie Listings</h1>
+        <h1 className="text-3xl font-bold mb-4 text-center">Cringe Cinema</h1>
 
         {/* Search Bar */}
         <input
           type="text"
-          placeholder="Search movies..."
-          className="w-full px-4 py-2 border rounded mb-6"
+          placeholder="Search for a cringe classic..."
+          className="w-full p-2 border rounded mb-6"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
         {/* Movie Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <AnimatePresence>
-            {filteredMovies.map((movie) => (
-              <motion.div
-                key={movie.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.2 }}
-              >
-                <MovieListing movie={movie} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+        >
+          {filteredMovies.map((movie) => (
+            <MovieListing key={movie.id} movie={movie} />
+          ))}
+        </motion.div>
       </div>
     </div>
   );
-}
+};
+
+export default Home;
